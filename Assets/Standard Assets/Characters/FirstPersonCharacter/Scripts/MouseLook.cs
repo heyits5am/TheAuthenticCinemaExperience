@@ -10,6 +10,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public float XSensitivity = 2f;
         public float YSensitivity = 2f;
         public bool clampVerticalRotation = true;
+        public bool clampHorizontalRotation = false;
         public float MinimumX = -90F;
         public float MaximumX = 90F;
         public bool smooth;
@@ -36,10 +37,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_CharacterTargetRot *= Quaternion.Euler (0f, yRot, 0f);
             m_CameraTargetRot *= Quaternion.Euler (-xRot, 0f, 0f);
 
-            if(clampVerticalRotation)
-                m_CameraTargetRot = ClampRotationAroundXAxis (m_CameraTargetRot);
+            if (clampVerticalRotation) {
+                m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
+            }
+            if (clampHorizontalRotation) {
+                m_CharacterTargetRot = ClampRotationAroundYAxis(m_CharacterTargetRot);
+            }
 
-            if(smooth)
+            if (smooth)
             {
                 character.localRotation = Quaternion.Slerp (character.localRotation, m_CharacterTargetRot,
                     smoothTime * Time.deltaTime);
@@ -51,7 +56,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 character.localRotation = m_CharacterTargetRot;
                 camera.localRotation = m_CameraTargetRot;
             }
-
             UpdateCursorLock();
         }
 
@@ -101,15 +105,30 @@ namespace UnityStandardAssets.Characters.FirstPerson
             q.y /= q.w;
             q.z /= q.w;
             q.w = 1.0f;
-
             float angleX = 2.0f * Mathf.Rad2Deg * Mathf.Atan (q.x);
 
             angleX = Mathf.Clamp (angleX, MinimumX, MaximumX);
 
             q.x = Mathf.Tan (0.5f * Mathf.Deg2Rad * angleX);
+            
+            
+            return q;
+        }
+        public float MinimumY = -90F;
+        public float MaximumY = 90F;
+        Quaternion ClampRotationAroundYAxis(Quaternion q) {
+            q.x /= q.w;
+            q.y /= q.w;
+            q.z /= q.w;
+            q.w = 1.0f;
+            float angleY = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.y);
+
+            angleY = Mathf.Clamp(angleY, MinimumY, MaximumY);
+
+            q.y = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleY);
+
 
             return q;
         }
-
     }
 }

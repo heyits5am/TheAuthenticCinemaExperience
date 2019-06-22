@@ -41,11 +41,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+        private Rigidbody rb;
+        private GameObject player;
+        private LookIndicator m_LookIndicator;
 
         // Use this for initialization
         private void Start()
         {
+            player = GameObject.FindWithTag("MainCamera");
+            m_LookIndicator = player.GetComponent<LookIndicator>();
             m_CharacterController = GetComponent<CharacterController>();
+            rb = GetComponent<Rigidbody>();
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
             m_FovKick.Setup(m_Camera);
@@ -92,8 +98,52 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
-        private void FixedUpdate()
-        {
+        private Vector3 fwd;
+        private Ray lookRay;
+        private RaycastHit hit;
+        public int armLength = 3;
+        public bool sitting = false;
+        private GameObject chair;
+
+        private void FixedUpdate() {
+            m_LookIndicator.canSit = false;
+            fwd = transform.TransformDirection(Vector3.forward);
+            lookRay = new Ray(transform.position, fwd);
+            if (sitting) {
+                if (Input.GetButtonDown("Interact")) {
+                    m_MouseLook.clampHorizontalRotation = false;
+                    m_CharacterController.Move(new Vector3(0, 0, 1));
+                    this.gameObject.layer = 2;
+                    sitting = false;
+                }
+            }
+            else if (Physics.Raycast(lookRay, out hit, armLength) && hit.collider.tag == "chair" ) {
+                m_LookIndicator.canSit = true;
+                if (Input.GetButtonDown("Interact")) {
+                    sitting = true;
+                    seating = true;
+                    m_MouseLook.clampHorizontalRotation = true;
+                    this.gameObject.layer = 10;
+                    chair = hit.collider.gameObject;
+                    m_CharacterController.Move(chair.transform.position - m_CharacterController.transform.position + new Vector3(0.51f, 0.3f, 0.3f));
+                }
+            }
+            //if (Input.GetButtonDown("Interact")) {
+            //    if (sitting) {
+            //        m_MouseLook.clampHorizontalRotation = false;
+            //        m_CharacterController.Move(new Vector3(0, 0, 1));
+            //        this.gameObject.layer = 2;
+            //        sitting = false;
+            //    }
+            //    else if (Physics.Raycast(lookRay, out hit, armLength) && hit.collider.tag == "chair") {
+            //        sitting = true;
+            //        seating = true;
+            //        m_MouseLook.clampHorizontalRotation = true;
+            //        this.gameObject.layer = 10;
+            //        chair = hit.collider.gameObject;
+            //        m_CharacterController.Move(chair.transform.position - m_CharacterController.transform.position + new Vector3(0.51f, 0.3f, 0.3f));
+            //    }
+            //}
             float speed;
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
@@ -125,8 +175,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_MoveDir += Physics.gravity*m_GravityMultiplier*Time.fixedDeltaTime;
             }
-            m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
-
+            if (!sitting) {
+                m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
+            }
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
@@ -232,11 +283,24 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 StartCoroutine(!m_IsWalking ? m_FovKick.FOVKickUp() : m_FovKick.FOVKickDown());
             }
         }
-
-
+        public bool seating = false;
         private void RotateView()
         {
-            m_MouseLook.LookRotation (transform, m_Camera.transform);
+            if (seating) {
+                m_MouseLook.MaximumX = 0;
+                m_MouseLook.MinimumX = 0;
+                m_MouseLook.MaximumY = 0;
+                m_MouseLook.MinimumY = 0;
+
+            }
+            m_MouseLook.LookRotation(transform, m_Camera.transform);
+            if (seating) {
+                m_MouseLook.MaximumX = 90F;
+                m_MouseLook.MinimumX = -90F;
+                m_MouseLook.MaximumY = 90F;
+                m_MouseLook.MinimumY = -90F;
+                seating = false;
+            }
         }
 
 

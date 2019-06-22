@@ -9,6 +9,7 @@ public class LookIndicator : MonoBehaviour {
     public bool closeUp = false;
     public bool focusOn = true;
     public bool canView;
+    public bool canSit;
     public bool canPickup;
     public bool canReplace;
     public float imageSize = 0.75f;
@@ -40,6 +41,9 @@ public class LookIndicator : MonoBehaviour {
         }
         else if (canReplace) {
             CenteredTextBox("Replace");
+        }
+        else if (canSit) {
+            CenteredTextBox("Sit");
         }
     }
     private void CenteredTextBox(string text) {
