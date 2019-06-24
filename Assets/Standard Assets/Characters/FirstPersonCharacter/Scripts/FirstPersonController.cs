@@ -28,6 +28,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -44,11 +45,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Rigidbody rb;
         private GameObject player;
         private LookIndicator m_LookIndicator;
+        private Transform parentPlayer;
 
         // Use this for initialization
         private void Start()
         {
             player = GameObject.FindWithTag("MainCamera");
+            parentPlayer = player.transform.parent;
             m_LookIndicator = player.GetComponent<LookIndicator>();
             m_CharacterController = GetComponent<CharacterController>();
             rb = GetComponent<Rigidbody>();
@@ -112,7 +115,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (sitting) {
                 if (Input.GetButtonDown("Interact")) {
                     m_MouseLook.clampHorizontalRotation = false;
-                    m_CharacterController.Move(new Vector3(0, 0, 1));
+                    m_CharacterController.Move(chair.transform.rotation * new Vector3(0, 0, 1));
                     this.gameObject.layer = 2;
                     sitting = false;
                 }
@@ -122,10 +125,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 if (Input.GetButtonDown("Interact")) {
                     sitting = true;
                     seating = true;
+                    chair = hit.collider.gameObject;
                     m_MouseLook.clampHorizontalRotation = true;
                     this.gameObject.layer = 10;
-                    chair = hit.collider.gameObject;
-                    m_CharacterController.Move(chair.transform.position - m_CharacterController.transform.position + new Vector3(0.51f, 0.3f, 0.3f));
+                    m_CharacterController.Move(chair.transform.position - m_CharacterController.transform.position + chair.transform.rotation * new Vector3(0.51f, 0.3f, 0.3f));
                 }
             }
             //if (Input.GetButtonDown("Interact")) {
@@ -289,16 +292,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (seating) {
                 m_MouseLook.MaximumX = 0;
                 m_MouseLook.MinimumX = 0;
-                m_MouseLook.MaximumY = 0;
-                m_MouseLook.MinimumY = 0;
-
+                m_MouseLook.MaximumY = chair.transform.rotation.y* 180F;
+                m_MouseLook.MinimumY = chair.transform.rotation.y * 180F;
             }
             m_MouseLook.LookRotation(transform, m_Camera.transform);
             if (seating) {
                 m_MouseLook.MaximumX = 90F;
                 m_MouseLook.MinimumX = -90F;
-                m_MouseLook.MaximumY = 90F;
-                m_MouseLook.MinimumY = -90F;
+                m_MouseLook.MaximumY = ((270F + chair.transform.rotation.y * 180F) % 360) -180;
+                m_MouseLook.MinimumY = ((90F + chair.transform.rotation.y * 180F) % 360) - 180;
                 seating = false;
             }
         }

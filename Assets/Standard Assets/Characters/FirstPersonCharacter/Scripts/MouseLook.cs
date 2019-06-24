@@ -122,12 +122,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
             q.z /= q.w;
             q.w = 1.0f;
             float angleY = 2.0f * Mathf.Rad2Deg * Mathf.Atan(q.y);
-
-            angleY = Mathf.Clamp(angleY, MinimumY, MaximumY);
-
+            if (MinimumY <= MaximumY) { 
+                angleY = Mathf.Clamp(angleY, MinimumY, MaximumY);
+            }
+            else if (angleY > 0) {
+                angleY = Mathf.Clamp(angleY, MinimumY, 180);
+            }
+            else {
+                angleY = Mathf.Clamp(angleY, -180, MaximumY);
+            }
             q.y = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleY);
-
-
             return q;
         }
     }
