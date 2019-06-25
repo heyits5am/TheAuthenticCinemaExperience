@@ -3,12 +3,12 @@ using System.Collections;
 using UnityStandardAssets.Utility;
 
 public class HoldItems : MonoBehaviour {
-
-    //for all arrays, 0=left hand, 1=right hand
+    
     public float throwSpeed = 10;
-    public float armLength = 3;
     public float inspectRotateSpeedX = 3;
     public float inspectRotateSpeedY = 3;
+
+    //for all arrays, 0=left hand, 1=right hand
     private bool[] canHoldLR = new bool[] { true, true };
     public GameObject[] heldLR = new GameObject[] { null, null };
     private Transform[] guideLR = new Transform[] { null, null };
@@ -20,10 +20,8 @@ public class HoldItems : MonoBehaviour {
     private GameObject player;
     private GameObject mainCamera;
     private CharacterController controller;
+    private LookIndicator lookIndicator;
     //private GameObject[] replaceZones;
-    private Vector3 fwd;
-    private Ray lookRay;
-    private RaycastHit hit;
 
     enum Hand {
         left,
@@ -34,6 +32,7 @@ public class HoldItems : MonoBehaviour {
     void Start() {
         player = GameObject.FindWithTag("Player");
         mainCamera = GameObject.FindWithTag("MainCamera");
+        lookIndicator = mainCamera.GetComponent<LookIndicator>();
         //replaceZones = GameObject.FindGameObjectsWithTag("replace");
         guideLR[(int) Hand.left] = GameObject.FindWithTag("held guide L").transform;
         guideLR[(int) Hand.right] = GameObject.FindWithTag("held guide R").transform;
@@ -42,12 +41,6 @@ public class HoldItems : MonoBehaviour {
 
     
     void Update() {
-        SetCanView(false);
-        SetCanPickup(false);
-        SetCanReplace(false);
-        SetFocusOn(true);
-        fwd = transform.TransformDirection(Vector3.forward);
-        lookRay = new Ray(transform.position, fwd);
         if (viewing) {
             if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) {
                 SetCloseUp(false);
@@ -94,36 +87,31 @@ public class HoldItems : MonoBehaviour {
             }
         }
         
-        if (Physics.Raycast(lookRay, out hit, armLength) && hit.collider.tag == "holdable" && !throwing && !(heldLR[(int)Hand.left] && heldLR[(int)Hand.right])) {
+        if (lookIndicator.currentAction == (int)LookIndicator.Action.hold && !throwing && !(heldLR[(int)Hand.left] && heldLR[(int)Hand.right])) {
             if (Input.GetButtonDown("Fire1") && !heldLR[(int)Hand.left]) {
-                Pickup(hit.collider.gameObject, Hand.left);
+                Pickup(lookIndicator.currentObject, Hand.left);
             }
             else if (Input.GetButtonDown("Fire2") && !heldLR[(int)Hand.right]) {
-                Pickup(hit.collider.gameObject, Hand.right);
-            }
-            else {
-                SetCanPickup(true);
+                Pickup(lookIndicator.currentObject, Hand.right);
             }
         }
-        else if (Physics.Raycast(lookRay, out hit, armLength) && hit.collider.tag == "viewable") {
-            if (Input.GetButtonDown("Fire1"))
-                View(hit.collider.gameObject);
-            else {
-                SetCanView(true);
-            }
+        else if (lookIndicator.currentAction == (int) LookIndicator.Action.view && (Input.GetButtonDown("Fire1"))) {
+            View(lookIndicator.hit.collider.gameObject);
         }
 
         throwing = false;
     }
 
-
+    private Rigidbody objRB;
     private void Pickup(GameObject obj, Hand lr) {
         //We set the object parent to our guide empty object.
         obj.transform.SetParent(guideLR[(int) lr]);
         //Set gravity to false while holding it
-        obj.GetComponent<Rigidbody>().useGravity = false;
-        obj.GetComponent<Rigidbody>().detectCollisions = false;
-        obj.GetComponent<Rigidbody>().freezeRotation = true;
+
+        objRB = obj.GetComponent<Rigidbody>();
+        objRB.useGravity = false;
+        objRB.detectCollisions = false;
+        objRB.freezeRotation = true;
 
         obj.transform.localRotation = new Quaternion(0, 0, 0, 0);
         //We re-position the ball on our guide object 
@@ -137,15 +125,13 @@ public class HoldItems : MonoBehaviour {
     }
     
     private void Inspect() {
-        SetFocusOn(false);
-        SetCanReplace(false);
         if (inspecting == false) {
             FreezePlayerMovement(true);
         }
 
         heldLR[(int) Hand.right].transform.position = inspectGuide.position;
-        heldLR[(int) Hand.right].transform.RotateAround(-transform.up  , Input.GetAxis("Mouse X") * inspectRotateSpeedX * Time.deltaTime);
-        heldLR[(int) Hand.right].transform.RotateAround(transform.right, Input.GetAxis("Mouse Y") * inspectRotateSpeedY * Time.deltaTime);
+        heldLR[(int) Hand.right].transform.Rotate(-transform.up  , Input.GetAxis("Mouse X") * inspectRotateSpeedX * Time.deltaTime);
+        heldLR[(int) Hand.right].transform.Rotate(transform.right, Input.GetAxis("Mouse Y") * inspectRotateSpeedY * Time.deltaTime);
         
         inspecting = true;
     }
@@ -180,9 +166,10 @@ public class HoldItems : MonoBehaviour {
         heldLR[(int) lr].layer = 9;
 
         //Return physics to the object.
-        heldLR[(int) lr].GetComponent<Rigidbody>().useGravity = true;
-        heldLR[(int) lr].GetComponent<Rigidbody>().detectCollisions = true;
-        heldLR[(int) lr].GetComponent<Rigidbody>().freezeRotation = false;
+        objRB = heldLR[(int)lr].GetComponent<Rigidbody>();
+        objRB.useGravity = true;
+        objRB.detectCollisions = true;
+        objRB.freezeRotation = false;
         heldLR[(int) lr].transform.parent = null;
         
         canHoldLR[(int) lr]=true;
@@ -204,15 +191,6 @@ public class HoldItems : MonoBehaviour {
         SetFocusOn(false);
         viewing = true;
         FreezePlayerMovement(true);
-    }
-    void SetCanView(bool tf) {
-        mainCamera.GetComponent<LookIndicator>().canView = tf;
-    }
-    void SetCanReplace(bool tf) {
-        mainCamera.GetComponent<LookIndicator>().canReplace = tf;
-    }
-    void SetCanPickup(bool tf) {
-        mainCamera.GetComponent<LookIndicator>().canPickup = tf;
     }
     void FreezePlayerMovement(bool tf) {
         //player.GetComponent<FirstPersonController>().m_Freeze = tf;

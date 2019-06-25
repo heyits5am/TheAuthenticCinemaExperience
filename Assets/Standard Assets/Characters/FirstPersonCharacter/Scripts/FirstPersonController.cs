@@ -109,9 +109,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private GameObject chair;
 
         private void FixedUpdate() {
-            m_LookIndicator.canSit = false;
-            fwd = transform.TransformDirection(Vector3.forward);
-            lookRay = new Ray(transform.position, fwd);
             if (sitting) {
                 if (Input.GetButtonDown("Interact")) {
                     m_MouseLook.clampHorizontalRotation = false;
@@ -120,33 +117,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     sitting = false;
                 }
             }
-            else if (Physics.Raycast(lookRay, out hit, armLength) && hit.collider.tag == "chair" ) {
-                m_LookIndicator.canSit = true;
+            else if (m_LookIndicator.currentAction == (int)LookIndicator.Action.sit) {
                 if (Input.GetButtonDown("Interact")) {
                     sitting = true;
                     seating = true;
-                    chair = hit.collider.gameObject;
+                    chair = m_LookIndicator.currentObject;
                     m_MouseLook.clampHorizontalRotation = true;
                     this.gameObject.layer = 10;
                     m_CharacterController.Move(chair.transform.position - m_CharacterController.transform.position + chair.transform.rotation * new Vector3(0.51f, 0.3f, 0.3f));
                 }
             }
-            //if (Input.GetButtonDown("Interact")) {
-            //    if (sitting) {
-            //        m_MouseLook.clampHorizontalRotation = false;
-            //        m_CharacterController.Move(new Vector3(0, 0, 1));
-            //        this.gameObject.layer = 2;
-            //        sitting = false;
-            //    }
-            //    else if (Physics.Raycast(lookRay, out hit, armLength) && hit.collider.tag == "chair") {
-            //        sitting = true;
-            //        seating = true;
-            //        m_MouseLook.clampHorizontalRotation = true;
-            //        this.gameObject.layer = 10;
-            //        chair = hit.collider.gameObject;
-            //        m_CharacterController.Move(chair.transform.position - m_CharacterController.transform.position + new Vector3(0.51f, 0.3f, 0.3f));
-            //    }
-            //}
+
             float speed;
             GetInput(out speed);
             // always move along the camera forward as it is the direction that it being aimed at
