@@ -27,7 +27,9 @@ public class LookIndicator : MonoBehaviour {
         hold,
         sit,
         view,
-        replace
+        replace,
+        door
+        
     }
 
     void OnGUI() {
@@ -70,6 +72,16 @@ public class LookIndicator : MonoBehaviour {
                     currentAction = (int)Action.replace;
                     currentObject = hit.collider.gameObject;
                     break;
+                case "door":
+                    currentAction = (int)Action.door;
+                    currentObject = hit.collider.gameObject;
+                    if (currentObject.transform.parent.GetComponent<DoorwayProperties>().isOpen) {
+                        CenteredTextBox("Close Door");
+                    }
+                    else {
+                        CenteredTextBox("Open Door");
+                    }
+                    break;
                 default:
                     currentAction = (int)Action.empty;
                     currentObject = null;
@@ -81,7 +93,6 @@ public class LookIndicator : MonoBehaviour {
             currentAction = (int)Action.empty;
             currentObject = null;
         }
-        Debug.Log(currentAction);
     }
     private void CenteredTextBox(string text) {
         GUI.Box(new Rect(xCentre - 35, 20 + yCentre, 70, 25), text);

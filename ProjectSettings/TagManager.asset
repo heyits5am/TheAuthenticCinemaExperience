@@ -12,6 +12,8 @@ TagManager:
   - held guide L
   - held guide R
   - chair
+  - bag
+  - door
   layers:
   - Default
   - TransparentFX
