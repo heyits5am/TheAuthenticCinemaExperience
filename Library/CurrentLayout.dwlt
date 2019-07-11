@@ -95,7 +95,7 @@ MonoBehaviour:
   m_MinSize: {x: 917, y: 448}
   m_MaxSize: {x: 22012, y: 10024}
   vertical: 0
-  controlID: 65
+  controlID: 131
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 448}
   m_MaxSize: {x: 4002, y: 8048}
   vertical: 1
-  controlID: 116
+  controlID: 48
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -267,8 +267,8 @@ MonoBehaviour:
     y: 486
     width: 908
     height: 461
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 224}
+  m_MaxSize: {x: 4002, y: 4024}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -362,9 +362,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: b6b4ffff
-      m_LastClickedID: -19274
-      m_ExpandedIDs: d4fbffff
+      m_SelectedIDs: 26ceffff
+      m_LastClickedID: -12762
+      m_ExpandedIDs: 80d4ffffd4fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -419,7 +419,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewResizer:
-    m_CachedPref: -160
+    m_CachedPref: 608
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
@@ -472,7 +472,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 8e290000
     m_LastClickedID: 10638
-    m_ExpandedIDs: 000000006c0d000048120000
+    m_ExpandedIDs: 00000000740d0000aa1000006c1600008c170000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -500,7 +500,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff000000006c0d0000e8150000984200008c440000
+    m_ExpandedIDs: ffffffff00000000740d0000aa1000006c1600008c17000004470000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -662,14 +662,14 @@ MonoBehaviour:
     height: 466
   m_PersistentViewDataDictionary: {fileID: 0}
   m_WindowGUID: 6161093fff166b245894bcab84b74bea
-  m_SceneLighting: 1
+  m_SceneLighting: 0
   m_2DMode: 0
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.49511623, y: 1.0754393, z: -0.10888672}
+    m_Target: {x: 5.8148136, y: 1.1490858, z: -0.553411}
     speed: 2
-    m_Value: {x: -0.49511623, y: 1.0754393, z: -0.10888672}
+    m_Value: {x: 5.8148136, y: 1.1490858, z: -0.553411}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -697,13 +697,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.11862296, y: 0.13362215, z: -0.016112005, w: 0.98377544}
+    m_Target: {x: 0.15328963, y: -0.8122228, z: 0.24592005, w: 0.50628346}
     speed: 2
-    m_Value: {x: 0.11862296, y: 0.13362215, z: -0.016112005, w: 0.98377544}
+    m_Value: {x: 0.1532894, y: -0.8122215, z: 0.24591966, w: 0.5062827}
   m_Size:
-    m_Target: 6.229092
+    m_Target: 4.1715765
     speed: 2
-    m_Value: 6.229092
+    m_Value: 4.1715765
   m_Ortho:
     m_Target: 0
     speed: 2
