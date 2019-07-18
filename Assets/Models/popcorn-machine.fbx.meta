@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: 8f60f1855ca9505489bb243c486c7613
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: BackGuard
+    100002: EdgeGuard
+    100004: EdgeGuard.001
+    100006: EdgeGuard.002
+    100008: EdgeGuard.003
+    100010: GlassPanes
+    100012: lid
+    100014: //RootNode
+    100016: pot
+    100018: potholder.L
+    100020: potholder.R
+    100022: TopBot
+    100024: WarmingLamp
+    400000: BackGuard
+    400002: EdgeGuard
+    400004: EdgeGuard.001
+    400006: EdgeGuard.002
+    400008: EdgeGuard.003
+    400010: GlassPanes
+    400012: lid
+    400014: //RootNode
+    400016: pot
+    400018: potholder.L
+    400020: potholder.R
+    400022: TopBot
+    400024: WarmingLamp
+    2100000: Metal
+    2100002: glass
+    2100004: Plastic.Red
+    2100006: White
+    2300000: BackGuard
+    2300002: EdgeGuard
+    2300004: EdgeGuard.001
+    2300006: EdgeGuard.002
+    2300008: EdgeGuard.003
+    2300010: GlassPanes
+    2300012: lid
+    2300014: pot
+    2300016: potholder.L
+    2300018: potholder.R
+    2300020: TopBot
+    2300022: WarmingLamp
+    3300000: BackGuard
+    3300002: EdgeGuard
+    3300004: EdgeGuard.001
+    3300006: EdgeGuard.002
+    3300008: EdgeGuard.003
+    3300010: GlassPanes
+    3300012: lid
+    3300014: pot
+    3300016: potholder.L
+    3300018: potholder.R
+    3300020: TopBot
+    3300022: WarmingLamp
+    4300000: BackGuard
+    4300002: EdgeGuard
+    4300004: EdgeGuard.001
+    4300006: EdgeGuard.002
+    4300008: EdgeGuard.003
+    4300010: GlassPanes
+    4300012: TopBot
+    4300014: WarmingLamp
+    4300016: lid
+    4300018: pot
+    4300020: potholder.L
+    4300022: potholder.R
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
